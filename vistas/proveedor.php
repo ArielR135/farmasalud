@@ -35,7 +35,7 @@ if ($_SESSION['compras']===1) {
                             <th>E-Mail</th>
                             <th>Sitio Web</th>
                             <th>Teléfono</th>
-                            <th>Calle</th>
+                            <th>Dirección</th>
                             <th>Ciudad</th>
                             <th>Provincia</th>
                             <th>Código Postal</th>
@@ -52,7 +52,7 @@ if ($_SESSION['compras']===1) {
                             <th>E-Mail</th>
                             <th>Sitio Web</th>
                             <th>Teléfono</th>
-                            <th>Calle</th>
+                            <th>Dirección</th>
                             <th>Ciudad</th>
                             <th>Provincia</th>
                             <th>Código Postal</th>
@@ -85,8 +85,8 @@ if ($_SESSION['compras']===1) {
                             <input type="tel" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Calle(*):</label>     
-                            <input type="text" class="form-control" name="calle" id="calle" maxlength="50" placeholder="Calle" required>
+                            <label>Dirección(*):</label>     
+                            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Calle" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Ciudad(*):</label>     
