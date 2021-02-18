@@ -18,7 +18,7 @@ function limpiar() {
     $("#email").val("");
     $("#sitio_web").val("");
     $("#telefono").val("");
-    $("#calle").val("");
+    $("#direccion").val("");
     $("#ciudad").val("");
     $("#provincia").val("");
     $("#codigo_postal").val("");
@@ -102,14 +102,14 @@ function mostrar(idproveedor) {
 		$("#idproveedor").val(data.idproveedor);
 		$("#nombre").val(data.nombre);
 		$("#cuit_cuil").val(data.cuit_cuil);
-        $("#email").val(data.email);
-        $("#sitio_web").val(data.sitio_web);
-        $("#telefono").val(data.telefono);
-        $("#calle").val(data.calle);
-        $("#ciudad").val(data.ciudad);
-        $("#provincia").val(data.provincia);
-        $("#codigo_postal").val(data.codigo_postal);
-        $("#pais").val(data.pais);
+    $("#email").val(data.email);
+    $("#sitio_web").val(data.sitio_web);
+    $("#telefono").val(data.telefono);
+    $("#direccion").val(data.direccion);
+    $("#ciudad").val(data.ciudad);
+    $("#provincia").val(data.provincia);
+    $("#codigo_postal").val(data.codigo_postal);
+    $("#pais").val(data.pais);
 	})
 }
 

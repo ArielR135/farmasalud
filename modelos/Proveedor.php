@@ -10,14 +10,14 @@ Class Proveedor {
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($nombre,$cuit_cuil,$email,$sitio_web,$telefono,$calle,$ciudad,$provincia,$codigo_postal,$pais) {
-		$sql = "INSERT INTO proveedores (nombre,cuit_cuil,email,sitio_web,telefono,calle,ciudad,provincia,codigo_postal,pais, estado) VALUES ('$nombre','$cuit_cuil','$email','$sitio_web','$telefono','$calle','$ciudad','$provincia','$codigo_postal','$pais', '1')";
+	public function insertar($nombre,$cuit_cuil,$email,$sitio_web,$telefono,$direccion,$ciudad,$provincia,$codigo_postal,$pais) {
+		$sql = "INSERT INTO proveedores (nombre,cuit_cuil,email,sitio_web,telefono,direccion,ciudad,provincia,codigo_postal,pais, estado) VALUES ('$nombre','$cuit_cuil','$email','$sitio_web','$telefono','$direccion','$ciudad','$provincia','$codigo_postal','$pais', '1')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idproveedor,$nombre,$cuit_cuil,$email,$sitio_web,$telefono,$calle,$ciudad,$provincia,$codigo_postal,$pais) {
-		$sql = "UPDATE proveedores SET nombre='$nombre',cuit_cuil='$cuit_cuil',email='$email',sitio_web='$sitio_web',telefono='$telefono',calle='$calle',ciudad='$ciudad',provincia='$provincia',codigo_postal='$codigo_postal',pais='$pais' WHERE idproveedor='$idproveedor'";
+	public function editar($idproveedor,$nombre,$cuit_cuil,$email,$sitio_web,$telefono,$direccion,$ciudad,$provincia,$codigo_postal,$pais) {
+		$sql = "UPDATE proveedores SET nombre='$nombre',cuit_cuil='$cuit_cuil',email='$email',sitio_web='$sitio_web',telefono='$telefono',direccion='$direccion',ciudad='$ciudad',provincia='$provincia',codigo_postal='$codigo_postal',pais='$pais' WHERE idproveedor='$idproveedor'";
 		return ejecutarConsulta($sql);
 	}
 

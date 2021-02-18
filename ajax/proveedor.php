@@ -12,7 +12,7 @@ $cuit_cuil = isset($_POST["cuit_cuil"]) ? limpiarCadena($_POST["cuit_cuil"]) : "
 $email = isset($_POST["email"]) ? limpiarCadena($_POST["email"]) : "";
 $sitio_web = isset($_POST["sitio_web"]) ? limpiarCadena($_POST["sitio_web"]) : "";
 $telefono = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
-$calle = isset($_POST["calle"]) ? limpiarCadena($_POST["calle"]) : "";
+$direccion = isset($_POST["direccion"]) ? limpiarCadena($_POST["direccion"]) : "";
 $ciudad = isset($_POST["ciudad"]) ? limpiarCadena($_POST["ciudad"]) : "";
 $provincia = isset($_POST["provincia"]) ? limpiarCadena($_POST["provincia"]) : "";
 $codigo_postal = isset($_POST["codigo_postal"]) ? limpiarCadena($_POST["codigo_postal"]) : "";
@@ -23,10 +23,10 @@ switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
 		if (empty($idproveedor)) {
-			$rspta = $proveedor->insertar($nombre, $cuit_cuil, $email, $sitio_web, $telefono, $calle, $ciudad, $provincia, $codigo_postal, $pais);
+			$rspta = $proveedor->insertar($nombre, $cuit_cuil, $email, $sitio_web, $telefono, $direccion, $ciudad, $provincia, $codigo_postal, $pais);
 			echo $rspta ? "Proveedor registrado" : "Proveedor no se pudo registrar";
 		} else {
-			$rspta = $proveedor->editar($idproveedor, $nombre, $cuit_cuil, $email, $sitio_web, $telefono, $calle, $ciudad, $provincia, $codigo_postal, $pais);
+			$rspta = $proveedor->editar($idproveedor, $nombre, $cuit_cuil, $email, $sitio_web, $telefono, $direccion, $ciudad, $provincia, $codigo_postal, $pais);
 			echo $rspta ? "Proveedor actualizado" : "Proveedor no se pudo actualizar";
 		}
 		break;
@@ -63,7 +63,7 @@ switch ($_GET["op"]) {
 					"3"=>$reg->email,
 					"4"=>$reg->sitio_web,
 					"5"=>$reg->telefono,
-					"6"=>$reg->calle,
+					"6"=>$reg->direccion,
 					"7"=>$reg->ciudad,
 					"8"=>$reg->provincia,
 					"9"=>$reg->codigo_postal,
