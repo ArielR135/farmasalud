@@ -180,6 +180,8 @@ function mostrar(idpedido) {
 		$('#estado_pedido').selectpicker('refresh');
 		$("#idproveedor").val(data.idproveedor);
 		$('#idproveedor').selectpicker('refresh');
+		$("#total_compra").val(data.total);
+		$("#total_impuesto").val(data.total_impuesto);
 		activarCampos(false);
 
 		//Ocultar y mostrar los botones

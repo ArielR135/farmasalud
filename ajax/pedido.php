@@ -6,6 +6,7 @@ if (strlen(session_id()) < 1) {
 }
 
 require_once "../modelos/Pedido.php";
+require_once '../config/util.php';
 
 $pedido = new Pedido();
 
@@ -65,8 +66,11 @@ switch ($_GET["op"]) {
 	        </thead>';
 
 		$totalCompra = 0;
+		$totalImpuesto = 0;
 		while ($reg = $rspta->fetch_object()) {
 			$subtotal = $reg->precio_unitario * $reg->cantidad;
+			$subtotalImpuesto = ($subtotal * $reg->impuesto) / 100;
+			
 			echo "<tr class='filas'>
 				<td></td>
 				<td>{$reg->nombre}</td>
@@ -75,15 +79,24 @@ switch ($_GET["op"]) {
 				<td>{$reg->impuesto}</td>
 				<td>{$subtotal}</td>
 			</tr>";
-			$totalCompra += ($reg->precio_unitario * $reg->cantidad) * $reg->impuesto / 100;
+			/*$totalCompra += ($reg->precio_unitario * $reg->cantidad) * $reg->impuesto / 100;*/
+			$totalImpuesto += $subtotalImpuesto;
+			$totalCompra += $subtotal;
+
 		}
+		$totalCompra += $totalImpuesto;
+		
 		echo "<tfoot>
       <th></th>
       <th></th>
       <th></th>
       <th></th>
       <th><h5><strong>TOTAL</strong></h5></th>
-      <th><h4 id='total'>AR$ {$totalCompra}</h4><input type='hidden' name='total_compra' id='total_compra'></th> 
+      <th>
+      <h4 id='total'>AR$ {$totalCompra}</h4>
+	      <input type='hidden' name='total_compra' id='total_compra' value='{$totalCompra}'>
+	      <input type='hidden' name='total_impuesto' id='total_impuesto' value='{$totalImpuesto}'>
+      </th> 
     </tfoot>";
 	break;
 
