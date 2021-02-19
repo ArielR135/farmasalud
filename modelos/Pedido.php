@@ -78,6 +78,21 @@ Class Pedido {
 			LIMIT 1";
 		return ejecutarConsultaSimpleFila($sql);
 	}
+
+	public function cabeceraPedido($idpedido) {
+		$sql = "SELECT p.idpedido, p.idproveedor, pv.nombre as proveedor, pv.direccion, pv.cuit_cuil, pv.email, pv.telefono, p.idusuario, u.nombre, u.apellido, p.referencia_pedido, p.fecha_pedido, p.total_impuesto, p.total, p.direccion_destino
+		FROM pedidos p INNER JOIN proveedores pv ON p.idproveedor = pv.idproveedor INNER JOIN  usuarios u ON p.idusuario = u.idusuario
+		WHERE p.idpedido = '$idpedido'";
+		return ejecutarConsulta($sql);
+	}
+
+	public function detallePedido($idpedido) {
+		$sql = "SELECT pd.nombre as producto, pd.codigo_barra, dp.cantidad, dp.precio_unitario, (dp.cantidad * dp.precio_unitario) as subtotal
+		FROM detalles_pedidos dp INNER JOIN productos pd ON dp.idproducto = pd.idproducto
+		WHERE dp.idpedido = '$idpedido'";
+		return ejecutarConsulta($sql);
+	}
+
 }
 
- ?>
+?>
