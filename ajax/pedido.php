@@ -6,7 +6,7 @@ if (strlen(session_id()) < 1) {
 }
 
 require_once "../modelos/Pedido.php";
-require_once '../config/util.php';
+// require_once '../config/util.php';
 
 $pedido = new Pedido();
 
@@ -125,10 +125,16 @@ switch ($_GET["op"]) {
 			$date = explode("-", $reg->fecha_pedido);
 
 			$data[] = array(
-					"0"=>($reg->estado_pedido!='Anulado')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idpedido.')" title="Ver"><i class="fa fa-eye"></i></button>'.
+					"0"=>(($reg->estado_pedido!='Anulado')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idpedido.')" title="Ver"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->idpedido.')" title="Anular"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idpedido.')" title="Ver"><i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-primary" onclick="borrador('.$reg->idpedido.')" title="Borrador"><i class="fa fa-pencil"></i></button>',
+ 					' <button class="btn btn-primary" onclick="activar('.$reg->idpedido.')" title="Borrador"><i class="fa fa-pencil"></i></button>').
+ 					" <a target='_blank' href='../reportes/exPedido.php?id={$reg->idpedido}'><button class='btn btn-info' title='Ver Pedido'><i class='fa fa-file'></i></button></a>",
+ 					/*"0"=>(($reg->estado_pedido!='Anulado')?"<button class='btn btn-warning' onclick='mostrar({$reg->idpedido}) title='Ver'><i class='fa fa-eye'></i></button>
+ 						<button class='btn btn-danger' onclick='anular({$reg->idpedido}) title='Anular'><i class='fa fa-close'></i></button>":
+ 					"<button class='btn btn-warning' onclick='mostrar({$reg->idpedido})' title='Ver'><i class='fa fa-eye'></i></button>
+ 					<button class='btn btn-primary' onclick='activar({$reg->idpedido})' title='Borrador'><i class='fa fa-pencil'></i></button>").
+ 					" <a target='_blank' href='../reportes/exPedido.php?id={$reg->idpedido}'><button class='btn btn-info' title='Pedido'><i class='fa fa-file'></i></button></a>",*/
 					"1"=>$reg->referencia_pedido,
 					// "2"=>$reg->fecha_pedido,
 					"2"=>"{$date[2]}/{$date[1]}/{$date[0]}",

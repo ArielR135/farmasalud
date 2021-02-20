@@ -182,6 +182,7 @@ function mostrar(idpedido) {
 		$('#idproveedor').selectpicker('refresh');
 		$("#total_compra").val(data.total);
 		$("#total_impuesto").val(data.total_impuesto);
+		// $("#btnPedido").prop("href", "../reportes/exPedido.php?id="+data.idpedido);
 		activarCampos(false);
 
 		//Ocultar y mostrar los botones
