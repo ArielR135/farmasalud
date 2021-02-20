@@ -23,6 +23,7 @@ if ($_SESSION['compras']===1) {
                           <h1 class="box-title">Pedidos
                             <button class="btn btn-success" id="btnAgregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button>
                             <button class="btn btn-warning" id="btnEditar" onclick="editar()" style="display: none;"><i class="fa fa-exclamation-circle"></i> Editar</button>
+                            <!-- <a target="_blank" id="btnPedido"><button class="btn btn-info"><i class="fa fa-file"></i> Pedido</button></a> -->
                           </h1>
                         <div class="box-tools pull-right">
                         </div>
