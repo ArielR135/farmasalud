@@ -29,7 +29,7 @@ function limpiar() {
 	  async:false // to make it synchronous
 	});
 	$("#fecha_pedido").val("");
-	$("#direccion_destino").val("");
+	$("#direccion_destino").val("Bella Vista, Av. Siempre Viva 123");
 	$("#documento_origen").val("");
 	$("#estado_pedido").val("");
 	$('#estado_pedido').selectpicker('refresh');
@@ -273,38 +273,43 @@ function agregarDetalle(idproducto,producto) {
 }
 
 function modificarSubototales() {
-	var cant = document.getElementsByName("cantidad[]");
-  var prec = document.getElementsByName("precio_unitario[]");
-  var sub = document.getElementsByName("subtotal");
-  var imp = document.getElementsByName("impuesto[]");
+	let cant = document.getElementsByName("cantidad[]");
+  let prec = document.getElementsByName("precio_unitario[]");
+  let sub = document.getElementsByName("subtotal");
+  // let imp = document.getElementsByName("impuesto[]");
 
-  for (var i = 0; i <cant.length; i++) {
+  for (let i = 0; i <cant.length; i++) {
   	sub[i].value = cant[i].value * prec[i].value;
-  	sub[i].value += sub[i].value * imp[i].value / 100;
+  	// sub[i].value += sub[i].value * imp[i].value / 100;
   	sub[i].innerHTML = sub[i].value;
   }
   calcularTotales();
 }
 
 function calcularTotales() {
-	var sub = document.getElementsByName("subtotal");
-	var total = 0.0;
-	// console.log('SUBTOTAL:', sub);
-	for (var i = 0; i < sub.length; i++) {
+	let sub = document.getElementsByName("subtotal");
+	let imp = document.getElementsByName("impuesto[]");
+	let total = 0.0;
+	let totalImp = 0.0;
+	for (let i = 0; i < sub.length; i++) {
 		total += sub[i].value;
+		totalImp += sub[i].value * imp[i].value / 100;
 	}
-	// console.log('TOTAL:', typeof total);
-	$("#total").html("AR$ " + total);
-  $("#total_compra").val(total);
+	// $("#total").html("AR$ " + total);
+ //  $("#total_compra").val(total);
 
-  var imp = document.getElementsByName("impuesto[]");
-  var totalImp = 0.0;
-  // console.info('IMPUESTO:', imp);
-  for (var i = 0; i < imp.length; i++) {
-		totalImp += Number(imp[i].value);
-	}
-	// console.log('IMPUESTO:', typeof totalImp);
+  // let imp = document.getElementsByName("impuesto[]");
+  // let totalImp = 0.0;
+  // let iva = 0.0;
+ //  for (let i = 0; i < imp.length; i++) {
+	// 	totalImp += Number(imp[i].value);
+	// }
+	// iva = totalImp / total * 100;
+	// console.log("IVA: ", iva);
+	$("#impuestos").html('AR$ '+totalImp);
   $("#total_impuesto").val(totalImp);
+  $("#total").html(`AR$ ${total+totalImp}`);
+  $("#total_compra").val(total+totalImp);
 
   evaluar();
 }

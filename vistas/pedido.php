@@ -60,7 +60,7 @@ if ($_SESSION['compras']===1) {
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Referencia(*):</label>
                             <input type="hidden" name="idpedido" id="idpedido">
-                            <input type="text" class="form-control" name="referencia_pedido" id="referencia_pedido" maxlength="6" required readonly>
+                            <input type="text" class="form-control" name="referencia_pedido" id="referencia_pedido" maxlength="6" required readonly value="000001">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Fecha de pedido(*):</label>
@@ -68,7 +68,7 @@ if ($_SESSION['compras']===1) {
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Dirección destino(*):</label>     
-                            <input type="text" class="form-control" name="direccion_destino" id="direccion_destino" maxlength="256" placeholder="Calle 123" required>
+                            <input type="text" class="form-control" name="direccion_destino" id="direccion_destino" maxlength="256" placeholder="Calle 123" required value="Bella Vista, Avenida Siempre Viva 123">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Documento origen:</label>     
@@ -111,8 +111,18 @@ if ($_SESSION['compras']===1) {
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th><h5><strong>TOTAL</strong></h5></th>
-                                <th><h4 id="total">AR$ 0,00</h4><input type="hidden" name="total_compra" id="total_compra"><input type="hidden" name="total_impuesto" id="total_impuesto"></th>
+                                <th>
+                                  <h5 style="text-align: right;">Impuestos:</h5> <br>
+                                  <h5 style="text-align: right;">
+                                    <strong>TOTAL:</strong>
+                                  </h5>
+                                </th>
+                                <th>
+                                  <h5 id="impuestos">AR$ 0,00</h5> </br>
+                                  <input type="hidden" name="total_impuesto" id="total_impuesto">
+                                  <h4 id="total">AR$ 0,00</h4>
+                                  <input type="hidden" name="total_compra" id="total_compra">
+                                </th>
                               </tfoot>
                               <tbody>
 
