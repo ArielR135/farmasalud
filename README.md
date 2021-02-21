@@ -1,2 +1,2 @@
 # FarmaSalud
-Proyecto de gestión de compras del EFIP1 para la Universidad Siglo 21.
+Proyecto de gestión de compras para el EFIP1 de la Universidad Siglo 21.
