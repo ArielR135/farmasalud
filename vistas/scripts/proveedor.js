@@ -117,23 +117,23 @@ function mostrar(idproveedor) {
 function desactivar(idproveedor) {
 	bootbox.confirm("¿Está Seguro de desactivar el Proveedor?", function(result) {
 		if(result) {
-        	$.post("../ajax/proveedor.php?op=desactivar", {idproveedor : idproveedor}, function(e) {
-        		bootbox.alert(e);
-	            tabla.ajax.reload();
-        	});	
-        }
+    	$.post("../ajax/proveedor.php?op=desactivar", {idproveedor : idproveedor}, function(e) {
+    		bootbox.alert(e);
+        tabla.ajax.reload();
+    	});	
+    }
 	})
 }
 
-//Función para activar registros
-function activar(idproveedor) {
-	bootbox.confirm("¿Está Seguro de activar el Proveedor?", function(result) {
+//Función para eliminar registros
+function eliminar(idproveedor) {
+	bootbox.confirm("¿Está Seguro de eliminar el proveedor?", function(result) {
 		if(result) {
-        	$.post("../ajax/proveedor.php?op=activar", {idproveedor : idproveedor}, function(e) {
-        		bootbox.alert(e);
-	            tabla.ajax.reload();
-        	});	
-        }
+    	$.post("../ajax/proveedor.php?op=eliminar", {idproveedor : idproveedor}, function(e) {
+    		bootbox.alert(e);
+        tabla.ajax.reload();
+    	});	
+    }
 	})
 }
 

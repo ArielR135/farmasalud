@@ -21,15 +21,9 @@ Class Proveedor {
 		return ejecutarConsulta($sql);
 	}
 
-	//Implementamos un método para desactivar registros
-	public function desactivar($idproveedor) {
-		$sql = "UPDATE proveedores SET estado='0' WHERE idproveedor='$idproveedor'";
-		return ejecutarConsulta($sql);
-	}
-
-	//Implementamos un método para activar registros
-	public function activar($idproveedor) {
-		$sql = "UPDATE proveedores SET estado='1' WHERE idproveedor='$idproveedor'";
+//Implementamos un método para eliminar proveedores
+	public function eliminar($idproveedor) {
+		$sql = "DELETE FROM proveedores WHERE idproveedor='$idproveedor'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -45,11 +39,6 @@ Class Proveedor {
 		return ejecutarConsulta($sql);
 	}
 
-	//Implementar un método para listar los registros y mostrar en el select
-	public function select() {
-		$sql="SELECT * FROM proveedores where estado=1";
-		return ejecutarConsulta($sql);		
-	}
 }
 
  ?>
