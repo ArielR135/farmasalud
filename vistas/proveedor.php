@@ -47,7 +47,7 @@ if ($_SESSION['compras']===1) {
                           <tfoot>
                           <th>Opciones</th>
                             <th>Nombre</th>
-                            <th>CUIT-CUIL</th>
+                            <th>Cuit-Cuil</th>
                             <th>E-Mail</th>
                             <th>Sitio Web</th>
                             <th>Teléfono</th>
