@@ -40,7 +40,6 @@ if ($_SESSION['compras']===1) {
                             <th>Provincia</th>
                             <th>Código Postal</th>
                             <th>País</th>
-                            <th>Estado</th>
                           </thead>
                           <tbody>
                             
@@ -57,7 +56,6 @@ if ($_SESSION['compras']===1) {
                             <th>Provincia</th>
                             <th>Código Postal</th>
                             <th>País</th>
-                            <th>Estado</th>
                           </tfoot>
                         </table>
                     </div>

@@ -29,17 +29,12 @@ switch ($_GET["op"]) {
 			$rspta = $proveedor->editar($idproveedor, $nombre, $cuit_cuil, $email, $sitio_web, $telefono, $direccion, $ciudad, $provincia, $codigo_postal, $pais);
 			echo $rspta ? "Proveedor actualizado" : "Proveedor no se pudo actualizar";
 		}
-		break;
+	break;
 
-	case 'desactivar':
-		$rspta = $proveedor->desactivar($idproveedor);
-			echo $rspta ? "Proveedor desactivado" : "Proveedor no se pudo desactivar";
-		break;
-
-	case 'activar':
-		$rspta = $proveedor->activar($idproveedor);
-			echo $rspta ? "Proveedor activado" : "Proveedor no se pudo activar";
-		break;
+	case 'eliminar':
+		$rspta=$proveedor->eliminar($idproveedor);
+ 		echo $rspta ? "Proveedor eliminado" : "Proveedor no se pudo eliminar";
+	break;
 
 	case 'mostrar':
 		$rspta = $proveedor->mostrar($idproveedor);
@@ -54,10 +49,8 @@ switch ($_GET["op"]) {
 
 		while ($reg=$rspta->fetch_object()) {
 			$data[] = array(
-					"0"=>($reg->estado)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idproveedor.')" title="Editar"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-danger" onclick="desactivar('.$reg->idproveedor.')" title="Desactivar"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idproveedor.')" title="Editar"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-primary" onclick="activar('.$reg->idproveedor.')" title="Activar"><i class="fa fa-check"></i></button>',
+					"0"=>'<button class="btn btn-warning" onclick="mostrar('.$reg->idproveedor.')" title="Editar"><i class="fa fa-pencil"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="eliminar('.$reg->idproveedor.')" title="Eliminar"><i class="fa fa-trash"></i></button>',
 					"1"=>$reg->nombre,
 					"2"=>$reg->cuit_cuil,
 					"3"=>$reg->email,
@@ -67,10 +60,8 @@ switch ($_GET["op"]) {
 					"7"=>$reg->ciudad,
 					"8"=>$reg->provincia,
 					"9"=>$reg->codigo_postal,
-					"10"=>$reg->pais,
-					"11"=>($reg->estado)?'<span class="label bg-green">Activado</span>':
- 				'<span class="label bg-red">Desactivado</span>'
-					);
+					"10"=>$reg->pais
+			);
 		}
 
 		$results = array(
