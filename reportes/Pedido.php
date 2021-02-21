@@ -258,7 +258,7 @@ function addClientAdresse( $cliente,$domicilio,$num_documento,$email,$telefono )
 	$y1     = 40;
 	$this->SetXY( $r1, $y1);
 	$this->SetFont( "Arial", "B", 10);
-	$this->MultiCell( 60, 4, "CLIENTE");
+	$this->MultiCell( 60, 4, "PROVEEDOR");
 	$this->SetXY( $r1, $y1+5);
 	$this->SetFont( "Arial", "", 10);
 	$this->MultiCell( 150, 4, $cliente);
@@ -522,9 +522,10 @@ function addTVAs( $igv, $total,$moneda )
 	$y1  = $this->h - 40;
 	$this->SetFont( "Arial", "", 8);
 	$this->SetXY( $re, $y1+5 );
-	$this->Cell( 17,4, $moneda.sprintf("%0.2F", $total-($total*$igv/($igv+100))), '', '', 'R');
+	// $this->Cell( 17,4, $moneda.sprintf("%0.2F", $total-($total*$igv/($igv+100))), '', '', 'R');
+	$this->Cell( 17,4, $moneda.sprintf("%0.2F", $total-$igv), '', '', 'R');
 	$this->SetXY( $re, $y1+10 );
-	$this->Cell( 17,4, $moneda.sprintf("%0.2F", ($total*$igv/($igv+100))), '', '', 'R');
+	$this->Cell( 17,4, $moneda.sprintf("%0.2F", $igv), '', '', 'R');
 	$this->SetXY( $re, $y1+14.8 );
 	$this->Cell( 17,4, $moneda.sprintf("%0.2F", $total), '', '', 'R');
 	
