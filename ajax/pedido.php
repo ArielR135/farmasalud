@@ -86,16 +86,34 @@ switch ($_GET["op"]) {
 		}
 		$totalCompra += $totalImpuesto;
 		
-		echo "<tfoot>
+		/*echo "<tfoot>
       <th></th>
       <th></th>
       <th></th>
       <th></th>
-      <th><h5><strong>TOTAL</strong></h5></th>
+      <th><h5><strong>TOTAL:</strong></h5></th>
       <th>
       <h4 id='total'>AR$ {$totalCompra}</h4>
 	      <input type='hidden' name='total_compra' id='total_compra' value='{$totalCompra}'>
 	      <input type='hidden' name='total_impuesto' id='total_impuesto' value='{$totalImpuesto}'>
+      </th> 
+    </tfoot>";*/
+    echo "<tfoot>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>
+      	<h5 style='text-align: right;'>Impuestos:</h5> <br>
+      	<h5 style='text-align: right;'>
+      		<strong>TOTAL:</strong>
+      	</h5>
+      </th>
+      <th>
+      	<h5 id='impuestos'>AR$ {$totalImpuesto}</h5> </br>
+	      <input type='hidden' name='total_impuesto' id='total_impuesto' value='{$totalImpuesto}'>
+      	<h4 id='total'>AR$ {$totalCompra}</h4>
+	      <input type='hidden' name='total_compra' id='total_compra' value='{$totalCompra}'>
       </th> 
     </tfoot>";
 	break;
