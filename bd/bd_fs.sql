@@ -240,11 +240,11 @@ CREATE TABLE `usuarios_permisos` (
 --
 
 INSERT INTO `usuarios_permisos` (`idusuario_permiso`, `idusuario`, `idpermiso`) VALUES
-(1, 1, 4),
+(1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
-(4, 1, 5),
-(5, 1, 1);
+(4, 1, 4),
+(5, 1, 5);
 
 --
 -- Índices para tablas volcadas
