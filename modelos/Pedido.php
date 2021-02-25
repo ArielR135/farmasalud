@@ -1,24 +1,53 @@
 <?php 
 // Incluimos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
+require_once '../config/util.php';
 
 Class Pedido {
 
-	// Implementamos nuestro constructor
-	public function __construct() {
+	// Atributos de clase
+	// private $idpedido;
+	private $referencia_pedido;
+	private $fecha_pedido;
+	private $direccion_destino;
+	private $documento_origen;
+	private $estado_pedido;
+	private $total_impuesto;
+	private $total;
+	private $idproveedor;
+	private $idusuario;
+	private $detallePedido;
 
+	// Implementamos nuestro constructor
+	public function __construct($referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor, $idusuario, $detallePedido) {
+		// $this->idpedido = $idpedido;
+		$this->referencia_pedido = $referencia_pedido;
+		$this->fecha_pedido = $fecha_pedido;
+		$this->direccion_destino = $direccion_destino;
+		$this->documento_origen = $documento_origen;
+		$this->estado_pedido = $estado_pedido;
+		$this->total_impuesto = $total_impuesto;
+		$this->total = $total;
+		$this->idproveedor = $idproveedor;
+		$this->idusuario = $idusuario;
+		$this->detallePedido = $detallePedido;
 	}
 
 	// Implementamos un método para insertar registros
-	public function insertar($referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario, $cantidad, $precio_unitario, $impuesto, $idproducto) {
+	public function insertar() {
 		$sql = "INSERT INTO pedidos (referencia_pedido, fecha_pedido, direccion_destino, documento_origen, estado_pedido, total_impuesto, total, idproveedor, idusuario)
-		VALUES ('$referencia_pedido', '$fecha_pedido', '$direccion_destino', '$documento_origen', '$estado_pedido', '$total_impuesto', '$total', '$idproveedor', '$idusuario')";
+		VALUES ('$this->referencia_pedido', '$this->fecha_pedido', '$this->direccion_destino', '$this->documento_origen', '$this->estado_pedido', '$this->total_impuesto', '$this->total', '$this->idproveedor', '$this->idusuario')";
 
-		$idpedidoNew = ejecutarConsulta_retornarID($sql);
+		$idpedidoUltimo = ejecutarConsulta_retornarID($sql);
 		$sw = true;
+		$dp = $this->detallePedido;
+		$cantidad = $dp->getCantidad();
+		$precioUnitario = $dp->getPrecioUnitario();
+		$impuesto = $dp->getImpuesto();
+		$idproducto = $dp->getIdProducto();
 
-		for ($i = 0; $i < count($idproducto); $i++) {
-			$sql_detalle = "INSERT INTO detalles_pedidos (cantidad,precio_unitario,impuesto,idproducto,idpedido) VALUES ('$cantidad[$i]', '$precio_unitario[$i]', '$impuesto[$i]', '$idproducto[$i]', '$idpedidoNew')";
+		for ($i = 0; $i < count($dp->getIdProducto()); $i++) {
+			$sql_detalle = "INSERT INTO detalles_pedidos (cantidad,precio_unitario,impuesto,idproducto,idpedido) VALUES ('$cantidad[$i]', '$precioUnitario[$i]', '$impuesto[$i]', '$idproducto[$i]', '$idpedidoUltimo')";
 			ejecutarConsulta($sql_detalle) or $sw = false;
 		}
 		return $sw;

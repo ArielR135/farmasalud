@@ -6,9 +6,10 @@ if (strlen(session_id()) < 1) {
 }
 
 require_once "../modelos/Pedido.php";
+require_once "../modelos/DetallePedido.php";
 // require_once '../config/util.php';
 
-$pedido = new Pedido();
+$pedido = new Pedido(null, null, null, null, null, null, null, null, null, null);
 
 //Si existe el objeto "idpedido" que se recibe por el método POST entonces se valida con la función "limpiarCadena()" y se guarda en la variable "$idpedido, de lo contrario se guarda una cadena vacía.
 $idpedido = isset($_POST["idpedido"]) ? limpiarCadena($_POST["idpedido"]) : "";
@@ -26,8 +27,26 @@ $idusuario = $_SESSION["idusuario"];
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
+		$detallePedido = new DetallePedido(
+			$_POST["cantidad"],
+			$_POST["precio_unitario"],
+			$_POST["impuesto"],
+			$_POST["idproducto"]
+		);
+		$pedido = new Pedido(
+			$referencia_pedido, 
+			$fecha_pedido, 
+			$direccion_destino, 
+			$documento_origen, 
+			$estado_pedido, 
+			$total_impuesto, 
+			$total, 
+			$idproveedor,
+			$idusuario,
+			$detallePedido
+		);
 		if (empty($idpedido)) {
-			$rspta = $pedido->insertar($referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario,$_POST["cantidad"],$_POST["precio_unitario"],$_POST["impuesto"],$_POST["idproducto"]);
+			$rspta = $pedido->insertar(/*$referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario,$_POST["cantidad"],$_POST["precio_unitario"],$_POST["impuesto"],$_POST["idproducto"]*/);
 			echo $rspta ? "Pedido registrado" : "No se puedieron registrar todos los datos del pedido";
 		} else {
 			$rspta = $pedido->editar($idpedido, $referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario/*,$_POST["cantidad"],$_POST["precio_unitario"],$_POST["impuesto"],$_POST["idproducto"]*/);
@@ -195,7 +214,7 @@ switch ($_GET["op"]) {
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>"<button class='btn btn-warning' onclick='agregarDetalle({$reg->idproducto}, \"{$reg->nombre}\")'><span class='fa fa-plus'></span></button>",
+ 				"0"=>"<button class='btn btn-warning' onclick=\"agregarDetalle({$reg->idproducto}, '{$reg->nombre}')\"><span class='fa fa-plus'></span></button>",
  				"1"=>$reg->nombre,
  				"2"=>$reg->categoria,
  				// "3"=>$reg->codigo_barra,
