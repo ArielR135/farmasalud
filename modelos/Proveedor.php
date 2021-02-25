@@ -11,7 +11,7 @@ Class Proveedor {
 
 	//Implementamos un método para insertar registros
 	public function insertar($nombre,$cuit_cuil,$email,$sitio_web,$telefono,$direccion,$ciudad,$provincia,$codigo_postal,$pais) {
-		$sql = "INSERT INTO proveedores (nombre,cuit_cuil,email,sitio_web,telefono,direccion,ciudad,provincia,codigo_postal,pais, estado) VALUES ('$nombre','$cuit_cuil','$email','$sitio_web','$telefono','$direccion','$ciudad','$provincia','$codigo_postal','$pais', '1')";
+		$sql = "INSERT INTO proveedores (nombre,cuit_cuil,email,sitio_web,telefono,direccion,ciudad,provincia,codigo_postal,pais) VALUES ('$nombre','$cuit_cuil','$email','$sitio_web','$telefono','$direccion','$ciudad','$provincia','$codigo_postal','$pais')";
 		return ejecutarConsulta($sql);
 	}
 

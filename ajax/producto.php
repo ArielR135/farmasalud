@@ -113,7 +113,7 @@ switch ($_GET["op"]) {
 		require_once "../modelos/Proveedor.php";
 		$proveedor = new Proveedor();
 
-		$rspta = $proveedor->select();
+		$rspta = $proveedor->listar();
 		echo '<option value="">Seleccione un Proveedor</option>';
 
 		while ($reg = $rspta->fetch_object())

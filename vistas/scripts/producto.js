@@ -53,12 +53,14 @@ function mostrarform(flag) {
 		$("#listadoregistros").hide();
 		$("#formularioregistros").show();
 		$("#btnGuardar").prop("disabled",false);
-		$("#btnagregar").hide();
+		$("#btnAgregar").hide();
+		$("#btnReporte").hide();
 	}
 	else {
 		$("#listadoregistros").show();
 		$("#formularioregistros").hide();
-		$("#btnagregar").show();
+		$("#btnAgregar").show();
+		$("#btnReporte").show();
 	}
 }
 
