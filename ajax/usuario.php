@@ -144,6 +144,8 @@ switch ($_GET["op"]) {
 		$fetch=$rspta->fetch_object();
 
 		if (isset($fetch)) {
+			// Registramos última sesión
+			$usuario->ultimaSesion($fetch->idusuario);
 			// Declaramos las variables de sesión
 			$_SESSION['idusuario']=$fetch->idusuario;
 			$_SESSION['nombre']=$fetch->nombre;

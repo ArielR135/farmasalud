@@ -135,6 +135,11 @@ Class Usuario {
 		$sql="SELECT idusuario,nombre_usuario,nombre,apellido,dni,rol,telefono,email,imagen FROM usuarios WHERE nombre_usuario='$nombre_usuario' AND contraseña='$contraseña' AND estado='1'";
 		return ejecutarConsulta($sql);
 	}
+
+	public function ultimaSesion($idusuario) {
+		$sql = "UPDATE usuarios SET ultima_sesion=CURRENT_TIMESTAMP() WHERE idusuario='$idusuario'";
+		return ejecutarConsulta($sql);
+	}
 }
 
  ?>
