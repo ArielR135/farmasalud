@@ -6,6 +6,7 @@ if (strlen(session_id()) < 1) {
 }
 
 require_once "../modelos/Pedido.php";
+require_once "../modelos/DetallePedido.php";
 // require_once '../config/util.php';
 
 $pedido = new Pedido();
@@ -26,33 +27,47 @@ $idusuario = $_SESSION["idusuario"];
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
+		$pedido->setReferenciaPedido($referencia_pedido);
+		$pedido->setFechaPedido($fecha_pedido);
+		$pedido->setDireccionDestino($direccion_destino);
+		$pedido->setEstadoPedido($estado_pedido);
+		$pedido->setTotalImpuesto($total_impuesto);
+		$pedido->setTotal($total);
+		$pedido->setIdProveedor($idproveedor);
+		$pedido->setIdUsuario($idusuario);
+		$pedido->setDetallePedido(new DetallePedido(
+			$_POST["cantidad"],
+			$_POST["precio_unitario"],
+			$_POST["impuesto"],
+			$_POST["idproducto"]
+		));
 		if (empty($idpedido)) {
-			$rspta = $pedido->insertar($referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario,$_POST["cantidad"],$_POST["precio_unitario"],$_POST["impuesto"],$_POST["idproducto"]);
+			$rspta = $pedido->insertar();
 			echo $rspta ? "Pedido registrado" : "No se puedieron registrar todos los datos del pedido";
 		} else {
-			$rspta = $pedido->editar($idpedido, $referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario/*,$_POST["cantidad"],$_POST["precio_unitario"],$_POST["impuesto"],$_POST["idproducto"]*/);
+			$rspta = $pedido->editar($idpedido);
 			echo $rspta ? "Pedido actualizado" : "No se puedieron actualizar todos los datos del pedido";
 		}
-		break;
+	break;
 
 	case 'anular':
 		$rspta = $pedido->anular($idpedido);
 			echo $rspta ? "Pedido anulado" : "Pedido no se pudo anular";
-		break;
+	break;
 
 	case 'activar':
 		$rspta = $pedido->activar($idpedido);
 			echo $rspta ? "Pedido establecido como pendiente" : "Pedido no se pudo establecer como pendiente";
-		break;
+	break;
 
 	case 'mostrar':
 		$rspta = $pedido->mostrar($idpedido);
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
-		break;
+	break;
 
 	case 'listarDetalles':
-		//Recibimos el idingreso
+		//Recibimos el idpedido
 		$id = $_GET['id'];
 		$rspta = $pedido->listarDetalles($id);
 
@@ -148,11 +163,7 @@ switch ($_GET["op"]) {
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idpedido.')" title="Ver"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-primary" onclick="activar('.$reg->idpedido.')" title="Borrador"><i class="fa fa-pencil"></i></button>').
  					" <a target='_blank' href='../reportes/exPedido.php?id={$reg->idpedido}'><button class='btn btn-info' title='Ver Pedido'><i class='fa fa-file'></i></button></a>",
- 					/*"0"=>(($reg->estado_pedido!='Anulado')?"<button class='btn btn-warning' onclick='mostrar({$reg->idpedido}) title='Ver'><i class='fa fa-eye'></i></button>
- 						<button class='btn btn-danger' onclick='anular({$reg->idpedido}) title='Anular'><i class='fa fa-close'></i></button>":
- 					"<button class='btn btn-warning' onclick='mostrar({$reg->idpedido})' title='Ver'><i class='fa fa-eye'></i></button>
- 					<button class='btn btn-primary' onclick='activar({$reg->idpedido})' title='Borrador'><i class='fa fa-pencil'></i></button>").
- 					" <a target='_blank' href='../reportes/exPedido.php?id={$reg->idpedido}'><button class='btn btn-info' title='Pedido'><i class='fa fa-file'></i></button></a>",*/
+
 					"1"=>$reg->referencia_pedido,
 					// "2"=>$reg->fecha_pedido,
 					"2"=>"{$date[2]}/{$date[1]}/{$date[0]}",
@@ -173,7 +184,7 @@ switch ($_GET["op"]) {
 				"aaData"=>$data, //Eviamos todos los registro del arreglo.
 				);
 		echo json_encode($results);
-		break;
+	break;
 
 	case 'selectProveedor':
 		require_once "../modelos/Proveedor.php";
@@ -195,7 +206,7 @@ switch ($_GET["op"]) {
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>"<button class='btn btn-warning' onclick='agregarDetalle({$reg->idproducto}, \"{$reg->nombre}\")'><span class='fa fa-plus'></span></button>",
+ 				"0"=>"<button class='btn btn-warning' onclick=\"agregarDetalle({$reg->idproducto}, '{$reg->nombre}')\"><span class='fa fa-plus'></span></button>",
  				"1"=>$reg->nombre,
  				"2"=>$reg->categoria,
  				// "3"=>$reg->codigo_barra,
@@ -213,14 +224,15 @@ switch ($_GET["op"]) {
  			"sEcho"=>1, //Información para el datatables
  			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
  			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
- 			"aaData"=>$data);
+ 			"aaData"=>$data
+ 		);
  		echo json_encode($results);
-		break;
+	break;
 
-		case 'ultimaRef':
-		$rspta = $pedido->ultimaRef();
-		//Codificar el resultado utilizando json
-		echo json_encode($rspta);
-		break;
+	case 'ultimaRef':
+	$rspta = $pedido->ultimaRef();
+	//Codificar el resultado utilizando json
+	echo json_encode($rspta);
+	break;
 }
  ?>

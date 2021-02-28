@@ -4,20 +4,32 @@ require "../config/Conexion.php";
 
 Class Categoria {
 
-	//Implementamos nuestro constructor
-	public function __construct() {
+	private $nombre;
+	private $descripcion;
 
+	//Implementamos nuestro constructor
+	function __construct($nombre=null, $descripcion=null, $estado=null) {
+		$this->nombre = $nombre;
+		$this->descripcion = $descripcion;
+		$this->estado = $estado;
+	}
+
+	function setNombre($nombre) {
+		$this->nombre = $nombre;
+	}
+	function setDescripcion($descripcion) {
+		$this->descripcion = $descripcion;
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($nombre, $descripcion) {
-		$sql = "INSERT INTO categorias (nombre, descripcion, estado) VALUES ('$nombre', '$descripcion', '1')";
+	public function insertar() {
+		$sql = "INSERT INTO categorias (nombre, descripcion, estado) VALUES ('$this->nombre', '$this->descripcion', '1')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idcategoria, $nombre, $descripcion) {
-		$sql = "UPDATE categorias SET nombre='$nombre', descripcion='$descripcion' WHERE idcategoria='$idcategoria'";
+	public function editar($idcategoria) {
+		$sql = "UPDATE categorias SET nombre='$this->nombre', descripcion='$this->descripcion' WHERE idcategoria='$idcategoria'";
 		return ejecutarConsulta($sql);
 	}
 
