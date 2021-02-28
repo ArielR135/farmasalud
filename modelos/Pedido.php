@@ -1,12 +1,11 @@
 <?php 
 // Incluimos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
-require_once '../config/util.php';
+// require_once '../config/util.php';
 
 Class Pedido {
 
 	// Atributos de clase
-	// private $idpedido;
 	private $referencia_pedido;
 	private $fecha_pedido;
 	private $direccion_destino;
@@ -19,8 +18,7 @@ Class Pedido {
 	private $detallePedido;
 
 	// Implementamos nuestro constructor
-	public function __construct($referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor, $idusuario, $detallePedido) {
-		// $this->idpedido = $idpedido;
+	public function __construct($referencia_pedido=null, $fecha_pedido=null, $direccion_destino=null, $documento_origen=null, $estado_pedido=null, $total_impuesto=null, $total=null, $idproveedor=null, $idusuario=null, $detallePedido=null) {
 		$this->referencia_pedido = $referencia_pedido;
 		$this->fecha_pedido = $fecha_pedido;
 		$this->direccion_destino = $direccion_destino;
@@ -30,6 +28,34 @@ Class Pedido {
 		$this->total = $total;
 		$this->idproveedor = $idproveedor;
 		$this->idusuario = $idusuario;
+		$this->detallePedido = $detallePedido;
+	}
+
+	function setReferenciaPedido($referencia_pedido) {
+		$this->referencia_pedido = $referencia_pedido;
+	}
+	function setFechaPedido($fecha_pedido)	{
+		$this->fecha_pedido = $fecha_pedido;
+	}
+	function setDireccionDestino($direccion_destino)	{
+		$this->direccion_destino = $direccion_destino;
+	}
+	function setEstadoPedido($estado_pedido)	{
+		$this->estado_pedido = $estado_pedido;
+	}
+	function setTotalImpuesto($total_impuesto)	{
+		$this->total_impuesto = $total_impuesto;
+	}
+	function setTotal($total)	{
+		$this->total = $total;
+	}
+	function setIdProveedor($idproveedor)	{
+		$this->idproveedor = $idproveedor;
+	}
+	function setIdUsuario($idusuario)	{
+		$this->idusuario = $idusuario;
+	}
+	function setDetallePedido($detallePedido)	{
 		$this->detallePedido = $detallePedido;
 	}
 
@@ -46,7 +72,7 @@ Class Pedido {
 		$impuesto = $dp->getImpuesto();
 		$idproducto = $dp->getIdProducto();
 
-		for ($i = 0; $i < count($dp->getIdProducto()); $i++) {
+		for ($i = 0; $i < count($idproducto); $i++) {
 			$sql_detalle = "INSERT INTO detalles_pedidos (cantidad,precio_unitario,impuesto,idproducto,idpedido) VALUES ('$cantidad[$i]', '$precioUnitario[$i]', '$impuesto[$i]', '$idproducto[$i]', '$idpedidoUltimo')";
 			ejecutarConsulta($sql_detalle) or $sw = false;
 		}
@@ -54,8 +80,8 @@ Class Pedido {
 	}
 
 	// Implementamos un método para editar registros
-	public function editar($idpedido, $referencia_pedido, $fecha_pedido, $direccion_destino, $documento_origen, $estado_pedido, $total_impuesto, $total, $idproveedor,$idusuario/*, $cantidad, $precio_unitario, $impuesto, $idproducto*/) {
-        $sql = "UPDATE pedidos SET referencia_pedido='$referencia_pedido', fecha_pedido='$fecha_pedido', direccion_destino='$direccion_destino', documento_origen='$documento_origen', estado_pedido='$estado_pedido', total_impuesto='$total_impuesto', total='$total', idproveedor='$idproveedor', idusuario='$idusuario'
+	public function editar($idpedido) {
+        $sql = "UPDATE pedidos SET referencia_pedido='$this->referencia_pedido', fecha_pedido='$this->fecha_pedido', direccion_destino='$this->direccion_destino', documento_origen='$this->documento_origen', estado_pedido='$this->estado_pedido', total_impuesto='$this->total_impuesto', total='$this->total', idproveedor='$this->idproveedor', idusuario='$this->idusuario'
 					WHERE idpedido='$idpedido'";
 					return ejecutarConsulta($sql);
         // ejecutarConsulta($sql);
