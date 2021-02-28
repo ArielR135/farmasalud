@@ -2,7 +2,7 @@
 session_start();
 require_once "../modelos/Usuario.php";
 
-$usuario=new Usuario();
+$usuario = new Usuario();
 
 $idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
 $nombre_usuario=isset($_POST["nombre_usuario"])? limpiarCadena($_POST["nombre_usuario"]):"";
@@ -13,33 +13,46 @@ $dni=isset($_POST["dni"])? limpiarCadena($_POST["dni"]):"";
 $rol=isset($_POST["rol"])? limpiarCadena($_POST["rol"]):"";
 $telefono=isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
 $email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
+$imagen=isset($_FILES['imagen'])? $_FILES['imagen']:Array();
 $permisos=isset($_POST['permisos'])? $_POST['permisos']:Array();
 
 switch ($_GET["op"]) {
 	case 'guardaryeditar':
-
-		if (!file_exists($_FILES['imagen']['tmp_name']) || !is_uploaded_file($_FILES['imagen']['tmp_name'])) {
-			$imagen=$_POST["imagenactual"];
+		// var_dump($imagen);
+		$usuario->setNombreUsuario($nombre_usuario);
+		$usuario->setContraseña($contraseña);
+		$usuario->setNombre($nombre);
+		$usuario->setApellido($apellido);
+		$usuario->setDni($dni);
+		$usuario->setRol($rol);
+		$usuario->setTelefono($telefono);
+		$usuario->setEmail($email);
+		$usuario->setImagen($imagen);
+		$usuario->setPermisos($permisos);
+		if (!file_exists($imagen['tmp_name']) || !is_uploaded_file($imagen['tmp_name'])) {
+			$usuario->setImagen($_POST["imagenactual"]);
 			//$imagen="";
 		}
 		else {
-			$ext = explode(".", $_FILES["imagen"]["name"]);
-			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
-			{
-				$imagen = round(microtime(true)) . '.' . end($ext);
-				move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/usuarios/" . $imagen);
+			$ext = explode(".", $usuario->getImagen()["name"]);
+			if ($imagen['type'] == "image/jpg" || $imagen['type'] == "image/jpeg" || $imagen['type'] == "image/png") {
+				$usuario->setImagen(round(microtime(true)) . '.' . end($ext));
+				move_uploaded_file(
+					$imagen["tmp_name"], 
+					"../files/usuarios/" . $usuario->getImagen()
+				);
 			}
 		}
 
 		// Hash SH256 en la contraseña
-		$claveHash=hash("SHA256",$contraseña);
+		$usuario->setContraseña(hash("SHA256",$contraseña));
 
 		if (empty($idusuario)) {
-			$rspta=$usuario->insertar($nombre_usuario,$claveHash,$nombre,$apellido,$dni,$rol,$telefono,$email,$imagen,$permisos);
+			$rspta=$usuario->insertar();
 			echo $rspta ? "Usuario registrado" : "No se pudieron registrar todos los datos del usuario";
 		}
 		else {
-			$rspta=$usuario->editar($idusuario,$nombre_usuario,$claveHash,$nombre,$apellido,$dni,$rol,$telefono,$email,$imagen,$permisos);
+			$rspta=$usuario->editar($idusuario);
 			echo $rspta ? "Usuario actualizado" : "Usuario no se pudo actualizar";
 		}
 	break;
@@ -121,8 +134,8 @@ switch ($_GET["op"]) {
 	break;
 
 	case 'verificar':
-		$nombre_usuario=$_POST['nombre_usuario'];
-		$contraseña=$_POST['contraseña'];
+		// $nombre_usuario=$_POST['nombre_usuario'];
+		// $contraseña=$_POST['contraseña'];
 
 		// Hash SHA256 en la contraseña
 		$claveHash=hash("SHA256",$contraseña);
