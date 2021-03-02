@@ -3,19 +3,19 @@ require_once "../modelos/Producto.php";
 
 $producto = new Producto();
 
-$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):"";
+$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):null;
 $codigo_barra=isset($_POST["codigo_barra"])? limpiarCadena($_POST["codigo_barra"]):null;
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):null;
 $sustancia_activa=isset($_POST["sustancia_activa"])? limpiarCadena($_POST["sustancia_activa"]):null;
-$fecha_vencimiento=isset($_POST["fecha_vencimiento"])? limpiarCadena($_POST["fecha_vencimiento"]):"";
-$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
+$fecha_vencimiento=isset($_POST["fecha_vencimiento"])? limpiarCadena($_POST["fecha_vencimiento"]):null;
+$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):null;
 $lote=isset($_POST["lote"])? limpiarCadena($_POST["lote"]):null;
 $laboratorio=isset($_POST["laboratorio"])? limpiarCadena($_POST["laboratorio"]):null;
 $presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):null;
 $imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : Array();
-$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
-$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):"";
+$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):null;
+$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):null;
 
 switch ($_GET["op"]) {
 
