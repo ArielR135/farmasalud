@@ -3,21 +3,86 @@
 require "../config/Conexion.php";
 
 Class Producto {
-	//Implementamos nuestro constructor
-	public function __construct() {
 
+	private $condigo_barra;
+	private $nombre;
+	private $descripcion;
+	private $sustancia_activa;
+	private $fecha_vencimiento;
+	private $stock;
+	private $lote;
+	private $laboratorio;
+	private $presentacion;
+	private $imagen;
+	private $idcategoria;
+	private $idproveedor;
+
+	//Implementamos nuestro constructor
+	function __construct($codigo_barra=null, $nombre=null, $descripcion=null, $sustancia_activa=null, $fecha_vencimiento=null, $stock=null, $lote=null, $laboratorio=null, $presentacion=null, $imagen=null, $idcategoria=null, $idproveedor=null) {
+		$this->codigo_barra = $codigo_barra;
+		$this->nombre = $nombre;
+		$this->descripcion = $descripcion;
+		$this->sustancia_activa = $sustancia_activa;
+		$this->fecha_vencimiento = $fecha_vencimiento;
+		$this->stock = $stock;
+		$this->lote = $lote;
+		$this->laboratorio = $laboratorio;
+		$this->presentacion = $presentacion;
+		$this->imagen = $imagen;
+		$this->idcategoria = $idcategoria;
+		$this->idproveedor = $idproveedor;
+	}
+
+	public function setCodigoBarra($codigo_barra) {
+		$this->codigo_barra = $codigo_barra;
+	}
+	public function setNombre($nombre) {
+		$this->nombre = $nombre;
+	}
+	public function setDescripcion($descripcion) {
+		$this->descripcion = $descripcion;
+	}
+	public function setSustanciaActiva($sustancia_activa) {
+		$this->sustancia_activa = $sustancia_activa;
+	}
+	public function setFechaVencimiento($fecha_vencimiento) {
+		$this->fecha_vencimiento = $fecha_vencimiento;
+	}
+	public function setStock($stock) {
+		$this->stock = $stock;
+	}
+	public function setLote($lote) {
+		$this->lote = $lote;
+	}
+	public function setLaboratorio($laboratorio) {
+		$this->laboratorio = $laboratorio;
+	}
+	public function setPresentacion($presentacion) {
+		$this->presentacion = $presentacion;
+	}
+	public function setImagen($imagen) {
+		$this->imagen = $imagen;
+	}
+	function getImagen() {
+		return $this->imagen;
+	}
+	public function setIdCategoria($idcategoria) {
+		$this->idcategoria = $idcategoria;
+	}
+	public function setIdProveedor($idproveedor) {
+		$this->idproveedor = $idproveedor;
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($codigo_barra,$nombre,$descripcion,$sustancia_activa,$fecha_vencimiento,$stock,$lote,$laboratorio,$presentacion,$imagen,$idcategoria,$idproveedor) {
+	public function insertar() {
 		$sql="INSERT INTO productos (codigo_barra,nombre,descripcion,sustancia_activa,fecha_vencimiento,stock,lote,laboratorio,presentacion,imagen,estado,idcategoria,idproveedor)
-		VALUES ('$codigo_barra','$nombre','$descripcion','$sustancia_activa','$fecha_vencimiento','$stock','$lote','$laboratorio','$presentacion','$imagen','1','$idcategoria','$idproveedor')";
+		VALUES ('$this->codigo_barra','$this->nombre','$this->descripcion','$this->sustancia_activa','$this->fecha_vencimiento','$this->stock','$this->lote','$this->laboratorio','$this->presentacion','$this->imagen','1','$this->idcategoria','$this->idproveedor')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idproducto,$codigo_barra, $nombre,$descripcion,$sustancia_activa,$fecha_vencimiento,$stock,$lote,$laboratorio,$presentacion,$imagen,$idcategoria,$idproveedor) {
-		$sql="UPDATE productos SET codigo_barra='$codigo_barra',nombre='$nombre',descripcion='$descripcion',sustancia_activa='$sustancia_activa',fecha_vencimiento='$fecha_vencimiento',stock='$stock',lote='$lote',laboratorio='$laboratorio',presentacion='$presentacion',imagen='$imagen',idcategoria='$idcategoria',idproveedor='$idproveedor' WHERE idproducto='$idproducto'";
+	public function editar($idproducto) {
+		$sql="UPDATE productos SET codigo_barra='$this->codigo_barra',nombre='$this->nombre',descripcion='$this->descripcion',sustancia_activa='$this->sustancia_activa',fecha_vencimiento='$this->fecha_vencimiento',stock='$this->stock',lote='$this->lote',laboratorio='$this->laboratorio',presentacion='$this->presentacion',imagen='$this->imagen',idcategoria='$this->idcategoria',idproveedor='$this->idproveedor' WHERE idproducto='$idproducto'";
 		return ejecutarConsulta($sql);
 	}
 
