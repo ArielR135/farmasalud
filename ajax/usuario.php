@@ -27,7 +27,6 @@ switch ($_GET["op"]) {
 		$usuario->setRol($rol);
 		$usuario->setTelefono($telefono);
 		$usuario->setEmail($email);
-		$usuario->setImagen($imagen);
 		$usuario->setPermisos($permisos);
 		if (!file_exists($imagen['tmp_name']) || !is_uploaded_file($imagen['tmp_name'])) {
 			$usuario->setImagen($_POST["imagenactual"]);
