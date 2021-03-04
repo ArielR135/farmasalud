@@ -85,7 +85,7 @@ Class Proveedor {
 	}
 
 	//Implementar un método para listar los registros
-	public function listar() {
+	static function listar() {
 		$sql = "SELECT * FROM proveedores";
 		return ejecutarConsulta($sql);
 	}

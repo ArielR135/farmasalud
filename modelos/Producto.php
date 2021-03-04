@@ -111,7 +111,7 @@ Class Producto {
 	}
 
 	//Implementar un método para listar los registros activos
-	public function listarActivos() {
+	static function listarActivos() {
 		$sql="SELECT pd.idproducto,pd.codigo_barra,pd.nombre,pd.descripcion,pd.sustancia_activa,pd.fecha_vencimiento,pd.stock,pd.lote,pd.laboratorio,pd.presentacion,pd.imagen,pd.estado,pd.idcategoria,c.nombre as categoria,pd.idproveedor,pv.nombre as proveedor FROM productos pd INNER JOIN categorias c ON pd.idcategoria=c.idcategoria INNER JOIN proveedores pv ON pd.idproveedor=pv.idproveedor WHERE pd.estado='1'";
 		return ejecutarConsulta($sql);		
 	}
