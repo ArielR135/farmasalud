@@ -1,44 +1,54 @@
 <?php 
 require_once "../modelos/Producto.php";
 
-$producto=new Producto();
+$producto = new Producto();
 
-$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):"";
-$codigo_barra=isset($_POST["codigo_barra"])? limpiarCadena($_POST["codigo_barra"]):"";
+$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):null;
+$codigo_barra=isset($_POST["codigo_barra"])? limpiarCadena($_POST["codigo_barra"]):null;
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-$descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
-$sustancia_activa=isset($_POST["sustancia_activa"])? limpiarCadena($_POST["sustancia_activa"]):"";
-$fecha_vencimiento=isset($_POST["fecha_vencimiento"])? limpiarCadena($_POST["fecha_vencimiento"]):"";
-$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
-$lote=isset($_POST["lote"])? limpiarCadena($_POST["lote"]):"";
-$laboratorio=isset($_POST["laboratorio"])? limpiarCadena($_POST["laboratorio"]):"";
-$presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):"";
-// $imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
-$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
-$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):"";
+$descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):null;
+$sustancia_activa=isset($_POST["sustancia_activa"])? limpiarCadena($_POST["sustancia_activa"]):null;
+$fecha_vencimiento=isset($_POST["fecha_vencimiento"])? limpiarCadena($_POST["fecha_vencimiento"]):null;
+$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):null;
+$lote=isset($_POST["lote"])? limpiarCadena($_POST["lote"]):null;
+$laboratorio=isset($_POST["laboratorio"])? limpiarCadena($_POST["laboratorio"]):null;
+$presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):null;
+$imagen = isset($_FILES['imagen']) ? $_FILES['imagen'] : Array();
+$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):null;
+$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):null;
 
 switch ($_GET["op"]) {
-	case 'guardaryeditar':
-	var_dump($_FILES);
 
-		if (!file_exists($_FILES['imagen']['tmp_name']) || !is_uploaded_file($_FILES['imagen']['tmp_name'])) {
-			$imagen=$_POST["imagenactual"];
+	case 'guardaryeditar':
+		$producto->setCodigoBarra($codigo_barra);
+		$producto->setNombre($nombre);
+		$producto->setDescripcion($descripcion);
+		$producto->setSustanciaActiva($sustancia_activa);
+		$producto->setFechaVencimiento($fecha_vencimiento);
+		$producto->setStock($stock);
+		$producto->setLote($lote);
+		$producto->setLaboratorio($laboratorio);
+		$producto->setPresentacion($presentacion);
+		$producto->setIdCategoria($idcategoria);
+		$producto->setIdProveedor($idproveedor);
+		if (!file_exists($imagen['tmp_name']) || !is_uploaded_file($imagen['tmp_name'])) {
+			$producto->setImagen($_POST["imagenactual"]);
 			//$imagen="";
 		}
 		else {
 			$ext = explode(".", $_FILES["imagen"]["name"]);
-			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
+			if ($imagen['type'] == "image/jpg" || $imagen['type'] == "image/jpeg" || $imagen['type'] == "image/png")
 			{
-				$imagen = round(microtime(true)) . '.' . end($ext);
-				move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/productos/" . $imagen);
+				$producto->setImagen(round(microtime(true)) . '.' . end($ext));
+				move_uploaded_file($imagen["tmp_name"], "../files/productos/" . $producto->getImagen());
 			}
 		}
 		if (empty($idproducto)) {
-			$rspta=$producto->insertar($codigo_barra,$nombre,$descripcion,$sustancia_activa,$fecha_vencimiento,$stock,$lote,$laboratorio,$presentacion,$imagen,$idcategoria,$idproveedor);
+			$rspta=$producto->insertar();
 			echo $rspta ? "Producto registrado" : "Producto no se pudo registrar";
 		}
 		else {
-			$rspta=$producto->editar($idproducto,$codigo_barra,$nombre,$descripcion,$sustancia_activa,$fecha_vencimiento,$stock,$lote,$laboratorio,$presentacion,$imagen,$idcategoria,$idproveedor);
+			$rspta=$producto->editar($idproducto);
 			echo $rspta ? "Producto actualizado" : "Producto no se pudo actualizar";
 		}
 	break;

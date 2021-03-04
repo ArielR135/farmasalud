@@ -7,69 +7,74 @@ if (strlen(session_id()) < 1) {
 
 require_once "../modelos/Pedido.php";
 require_once "../modelos/DetallePedido.php";
-// require_once '../config/util.php';
 
-$pedido = new Pedido();
 
 //Si existe el objeto "idpedido" que se recibe por el método POST entonces se valida con la función "limpiarCadena()" y se guarda en la variable "$idpedido, de lo contrario se guarda una cadena vacía.
-$idpedido = isset($_POST["idpedido"]) ? limpiarCadena($_POST["idpedido"]) : "";
-$referencia_pedido = isset($_POST["referencia_pedido"]) ? limpiarCadena($_POST["referencia_pedido"]) : "";
-$fecha_pedido = isset($_POST["fecha_pedido"]) ? limpiarCadena($_POST["fecha_pedido"]) : "";
-$direccion_destino = isset($_POST["direccion_destino"]) ? limpiarCadena($_POST["direccion_destino"]) : "";
+$idpedido = isset($_POST["idpedido"]) ? limpiarCadena($_POST["idpedido"]) : null;
+$referencia_pedido = isset($_POST["referencia_pedido"]) ? limpiarCadena($_POST["referencia_pedido"]) : null;
+$fecha_pedido = isset($_POST["fecha_pedido"]) ? limpiarCadena($_POST["fecha_pedido"]) : null;
+$direccion_destino = isset($_POST["direccion_destino"]) ? limpiarCadena($_POST["direccion_destino"]) : null;
 $documento_origen = isset($_POST["documento_origen"]) ? limpiarCadena($_POST["documento_origen"]) : null;
-$estado_pedido = isset($_POST["estado_pedido"]) ? limpiarCadena($_POST["estado_pedido"]) : "";
-$total_impuesto = isset($_POST["total_impuesto"]) ? limpiarCadena($_POST["total_impuesto"]) : "";
-$total = isset($_POST["total_compra"]) ? limpiarCadena($_POST["total_compra"]) : "";
-$idproveedor = isset($_POST["idproveedor"]) ? limpiarCadena($_POST["idproveedor"]) : "";
+$estado_pedido = isset($_POST["estado_pedido"]) ? limpiarCadena($_POST["estado_pedido"]) : null;
+$total_impuesto = isset($_POST["total_impuesto"]) ? limpiarCadena($_POST["total_impuesto"]) : null;
+$total = isset($_POST["total_compra"]) ? limpiarCadena($_POST["total_compra"]) : null;
+$idproveedor = isset($_POST["idproveedor"]) ? limpiarCadena($_POST["idproveedor"]) : null;
 $idusuario = $_SESSION["idusuario"];
+
+// Detalle Pedido //
+$cantidad = isset($_POST["cantidad"]) ? $_POST["cantidad"] : null;
+$precio_unitario = isset($_POST["precio_unitario"]) ? $_POST["precio_unitario"] : null;
+$impuesto = isset($_POST["impuesto"]) ? $_POST["impuesto"] : null;
+$idproducto = isset($_POST["idproducto"]) ? $_POST["idproducto"] : null;
+
+$detallePedido = new DetallePedido($cantidad,	$precio_unitario,	$impuesto, $idproducto);
+$pedido = new Pedido(
+	$idpedido, 
+	$referencia_pedido, 
+	$fecha_pedido, 
+	$direccion_destino, 
+	$documento_origen,
+	$estado_pedido, 
+	$total_impuesto, 
+	$total, 
+	$idproveedor, 
+	$idusuario, 
+	$detallePedido
+);
 
 //Se evalúa la operacion que se va a realizar para devolver los valores
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
-		$pedido->setReferenciaPedido($referencia_pedido);
-		$pedido->setFechaPedido($fecha_pedido);
-		$pedido->setDireccionDestino($direccion_destino);
-		$pedido->setEstadoPedido($estado_pedido);
-		$pedido->setTotalImpuesto($total_impuesto);
-		$pedido->setTotal($total);
-		$pedido->setIdProveedor($idproveedor);
-		$pedido->setIdUsuario($idusuario);
-		$pedido->setDetallePedido(new DetallePedido(
-			$_POST["cantidad"],
-			$_POST["precio_unitario"],
-			$_POST["impuesto"],
-			$_POST["idproducto"]
-		));
-		if (empty($idpedido)) {
+		if (empty($pedido->getIdPedido())) {
 			$rspta = $pedido->insertar();
 			echo $rspta ? "Pedido registrado" : "No se puedieron registrar todos los datos del pedido";
 		} else {
-			$rspta = $pedido->editar($idpedido);
+			$rspta = $pedido->editar();
 			echo $rspta ? "Pedido actualizado" : "No se puedieron actualizar todos los datos del pedido";
 		}
 	break;
 
 	case 'anular':
-		$rspta = $pedido->anular($idpedido);
+		$rspta = $pedido->anular();
 			echo $rspta ? "Pedido anulado" : "Pedido no se pudo anular";
 	break;
 
 	case 'activar':
-		$rspta = $pedido->activar($idpedido);
+		$rspta = $pedido->activar();
 			echo $rspta ? "Pedido establecido como pendiente" : "Pedido no se pudo establecer como pendiente";
 	break;
 
 	case 'mostrar':
-		$rspta = $pedido->mostrar($idpedido);
+		$rspta = $pedido->mostrar();
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
 	break;
 
 	case 'listarDetalles':
 		//Recibimos el idpedido
-		$id = $_GET['id'];
-		$rspta = $pedido->listarDetalles($id);
+		$pedido->setIdPedido($_GET['id']);
+		$rspta = $pedido->listarDetalles();
 
 		echo '<thead style="background-color:#A9D0F5">
             <th>Opciones</th>
@@ -134,7 +139,7 @@ switch ($_GET["op"]) {
 	break;
 
 	case 'listar':
-		$rspta = $pedido->listar();
+		$rspta = Pedido::listar();
 		//Vamos a declarar un array
 		$data = Array();
 
@@ -188,8 +193,7 @@ switch ($_GET["op"]) {
 
 	case 'selectProveedor':
 		require_once "../modelos/Proveedor.php";
-		$proveedor = new Proveedor();
-		$rspta = $proveedor->listar();
+		$rspta = Proveedor::listar();
 
 		echo '<option value="">Seleccione un Proveedor</option>';
 		while ($reg = $rspta-> fetch_object()) {
@@ -199,8 +203,7 @@ switch ($_GET["op"]) {
 
 	case 'listarProductos':
 		require_once '../modelos/Producto.php';
-		$producto = new Producto();
-		$rspta=$producto->listarActivos();
+		$rspta=Producto::listarActivos();
  		//Vamos a declarar un array
  		$data= Array();
 
@@ -230,9 +233,9 @@ switch ($_GET["op"]) {
 	break;
 
 	case 'ultimaRef':
-	$rspta = $pedido->ultimaRef();
+	$rspta = Pedido::ultimaRef();
 	//Codificar el resultado utilizando json
 	echo json_encode($rspta);
 	break;
 }
- ?>
+?>

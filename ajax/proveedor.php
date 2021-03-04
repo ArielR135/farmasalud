@@ -6,27 +6,37 @@ require_once "../modelos/Proveedor.php";
 $proveedor = new Proveedor();
 
 //Si existe el objeto "idproveedor" que se recibe por el método POST entonces se valida con la función "limpiarCadena()" y se guarda en la variable "$idproveedor, de lo contrario se guarda una cadena vacía.
-$idproveedor = isset($_POST["idproveedor"]) ? limpiarCadena($_POST["idproveedor"]) : "";
-$nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
-$cuit_cuil = isset($_POST["cuit_cuil"]) ? limpiarCadena($_POST["cuit_cuil"]) : "";
-$email = isset($_POST["email"]) ? limpiarCadena($_POST["email"]) : "";
-$sitio_web = isset($_POST["sitio_web"]) ? limpiarCadena($_POST["sitio_web"]) : "";
-$telefono = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : "";
-$direccion = isset($_POST["direccion"]) ? limpiarCadena($_POST["direccion"]) : "";
-$ciudad = isset($_POST["ciudad"]) ? limpiarCadena($_POST["ciudad"]) : "";
-$provincia = isset($_POST["provincia"]) ? limpiarCadena($_POST["provincia"]) : "";
-$codigo_postal = isset($_POST["codigo_postal"]) ? limpiarCadena($_POST["codigo_postal"]) : "";
-$pais = isset($_POST["pais"]) ? limpiarCadena($_POST["pais"]) : "";
+$idproveedor = isset($_POST["idproveedor"]) ? limpiarCadena($_POST["idproveedor"]) : null;
+$nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : null;
+$cuit_cuil = isset($_POST["cuit_cuil"]) ? limpiarCadena($_POST["cuit_cuil"]) : null;
+$email = isset($_POST["email"]) ? limpiarCadena($_POST["email"]) : null;
+$sitio_web = isset($_POST["sitio_web"]) ? limpiarCadena($_POST["sitio_web"]) : null;
+$telefono = isset($_POST["telefono"]) ? limpiarCadena($_POST["telefono"]) : null;
+$direccion = isset($_POST["direccion"]) ? limpiarCadena($_POST["direccion"]) : null;
+$ciudad = isset($_POST["ciudad"]) ? limpiarCadena($_POST["ciudad"]) : null;
+$provincia = isset($_POST["provincia"]) ? limpiarCadena($_POST["provincia"]) : null;
+$codigo_postal = isset($_POST["codigo_postal"]) ? limpiarCadena($_POST["codigo_postal"]) : null;
+$pais = isset($_POST["pais"]) ? limpiarCadena($_POST["pais"]) : null;
 
 //Se evalúa la operacion que se va a realizar para devolver los valores
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
+		$proveedor->setNombre($nombre);
+		$proveedor->setCuitCuil($cuit_cuil);
+		$proveedor->setEmail($email);
+		$proveedor->setSitioWeb($sitio_web);
+		$proveedor->setTelefono($telefono);
+		$proveedor->setDireccion($direccion);
+		$proveedor->setCiudad($ciudad);
+		$proveedor->setProvincia($provincia);
+		$proveedor->setCodigoPostal($codigo_postal);
+		$proveedor->setPais($pais);
 		if (empty($idproveedor)) {
-			$rspta = $proveedor->insertar($nombre, $cuit_cuil, $email, $sitio_web, $telefono, $direccion, $ciudad, $provincia, $codigo_postal, $pais);
+			$rspta = $proveedor->insertar();
 			echo $rspta ? "Proveedor registrado" : "Proveedor no se pudo registrar";
 		} else {
-			$rspta = $proveedor->editar($idproveedor, $nombre, $cuit_cuil, $email, $sitio_web, $telefono, $direccion, $ciudad, $provincia, $codigo_postal, $pais);
+			$rspta = $proveedor->editar($idproveedor);
 			echo $rspta ? "Proveedor actualizado" : "Proveedor no se pudo actualizar";
 		}
 	break;

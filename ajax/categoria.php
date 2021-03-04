@@ -3,46 +3,44 @@
 
 require_once "../modelos/Categoria.php";
 
-$categoria = new Categoria();
-
 //Si existe el objeto "idcategoria" que se recibe por el método POST entonces se valida con la función "limpiarCadena()" y se guarda en la variable "$idcategoria, de lo contrario se guarda una cadena vacía.
-$idcategoria = isset($_POST["idcategoria"]) ? limpiarCadena($_POST["idcategoria"]) : "";
-$nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
-$descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
+$idcategoria = isset($_POST["idcategoria"]) ? limpiarCadena($_POST["idcategoria"]) : null;
+$nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : null;
+$descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : null;
+
+$categoria = new Categoria($idcategoria, $nombre, $descripcion);
 
 //Se evalúa la operacion que se va a realizar para devolver los valores
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
-		$categoria->setNombre($nombre);
-		$categoria->setDescripcion($descripcion);
-		if (empty($idcategoria)) {
+		if (empty($categoria->getIdCategoria())) {
 			$rspta = $categoria->insertar();
 			echo $rspta ? "Categoría registrada" : "Categoría no se pudo registrar";
 		} else {
-			$rspta = $categoria->editar($idcategoria);
+			$rspta = $categoria->editar();
 			echo $rspta ? "Categoría actualizada" : "Categoría no se pudo actualizar";
 		}
 		break;
 
 	case 'desactivar':
-		$rspta = $categoria->desactivar($idcategoria);
+		$rspta = $categoria->desactivar();
 			echo $rspta ? "Categoría desactivada" : "Categoría no se pudo desactivar";
 		break;
 
 	case 'activar':
-		$rspta = $categoria->activar($idcategoria);
+		$rspta = $categoria->activar();
 			echo $rspta ? "Categoría activada" : "Categoría no se pudo activar";
 		break;
 
 	case 'mostrar':
-		$rspta = $categoria->mostrar($idcategoria);
+		$rspta = $categoria->mostrar();
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
 		break;
 
 	case 'listar':
-		$rspta = $categoria->listar();
+		$rspta = Categoria::listar();
 		//Vamos a declarar un array
 		$data = Array();
 
