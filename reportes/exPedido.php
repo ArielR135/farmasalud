@@ -23,8 +23,8 @@ if (!isset($_SESSION["nombre"])) {
 
   //Obtenemos los datos de la cabecera del pedido actual
   require_once "../modelos/Pedido.php";
-  $pedido= new Pedido();
-  $rsptap = $pedido->cabeceraPedido($_GET["id"]);
+  $pedido= new Pedido($_GET["id"]);
+  $rsptap = $pedido->cabeceraPedido();
   //Recorremos todos los valores obtenidos
   $regp = $rsptap->fetch_object();
 
@@ -44,7 +44,7 @@ if (!isset($_SESSION["nombre"])) {
     $ext_logo
   );
   $pdf->fact_dev( "Pedido ", $regp->referencia_pedido );
-  // $pdf->temporaire( "Prueba" );
+  $pdf->temporaire( "Prueba" );
   $pdf->addDate( $regp->fecha_pedido);
 
   //Enviamos los datos del proveedor al método addClientAdresse de la clase Pedido
@@ -58,16 +58,14 @@ if (!isset($_SESSION["nombre"])) {
 
   //Establecemos las columnas que va a tener la sección donde mostramos los detalles del pedido
   $cols=array(
-    "CODIGO"=>23,
-    "DESCRIPCION"=>78,
-    "CANTIDAD"=>22,
-    "PRECIO U."=>25,
-    "IMPUESTO"=>20,
-    "SUBTOTAL"=>22
+    "DESCRIPCION"=>86,
+    "CANTIDAD"=>26,
+    "PRECIO U."=>26,
+    "IMPUESTO"=>26,
+    "SUBTOTAL"=>26
   );
   $pdf->addCols( $cols);
   $cols=array( 
-    "CODIGO"=>"L",
     "DESCRIPCION"=>"L",
     "CANTIDAD"=>"C",
     "PRECIO U."=>"R",
@@ -80,11 +78,10 @@ if (!isset($_SESSION["nombre"])) {
   $y= 89;
 
   //Obtenemos todos los detalles del pedido actual
-  $rsptad = $pedido->detallePedido($_GET["id"]);
+  $rsptad = $pedido->detallePedido();
 
   while ($regd = $rsptad->fetch_object()) {
     $line = array(
-      "CODIGO"=> "$regd->codigo_barra",
       "DESCRIPCION"=> utf8_decode("$regd->producto"),
       "CANTIDAD"=> "$regd->cantidad",
       "PRECIO U."=> "$regd->precio_unitario",
@@ -92,7 +89,7 @@ if (!isset($_SESSION["nombre"])) {
       "SUBTOTAL"=> "$regd->subtotal"
     );
     $size = $pdf->addLine( $y, $line );
-    $y   += $size + 2;
+    $y += $size + 2;
   }
 
   //Convertimos el total en letras
