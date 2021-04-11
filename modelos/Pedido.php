@@ -132,7 +132,7 @@ Class Pedido {
 	}
 
 	function detallePedido() {
-		$sql = "SELECT pd.nombre as producto, pd.codigo_barra, dp.cantidad, dp.precio_unitario, dp.impuesto, (dp.cantidad * dp.precio_unitario) as subtotal
+		$sql = "SELECT pd.nombre as producto, dp.cantidad, dp.precio_unitario, dp.impuesto, (dp.cantidad * dp.precio_unitario) as subtotal
 		FROM detalles_pedidos dp INNER JOIN productos pd ON dp.idproducto = pd.idproducto
 		WHERE dp.idpedido = '$this->idpedido'";
 		return ejecutarConsulta($sql);
